@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Favorite</title>
+  <link rel="stylesheet" href="assets/styles/app.css" />
+  <script src="assets/scripts/app.js" defer></script>
+</head>
+
+<body>
+  <div id="backdrop"></div>
+  <div class="modal" id="add-modal">
+    <div class="modal__content">
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" />
+      <label for="image-url">Image URL</label>
+      <input type="text" name="image-url" id="image-url" />
+      <label for="rating">Your Rating</label>
+      <input type="number" step="1" max="5" min="1" name="rating" id="rating"/>
+    </div>
+    <div class="modal__actions">
+      <button class="btn btn--passive" onclick="invertVisibilityOfAddBookDialog()">Cancel</button>
+      <button class="btn btn--success" id="addBookButton" onclick="addBook()">Add</button>
+    </div>
+  </div>
+  <div class="modal" id="delete-modal">
+    <h2 class="modal__title">Are you sure?</h2>
+    <p class="modal__content">
+      Are you sure you want to delete this item? This action can't be made
+      undone!
+    </p>
+    <div class="modal__actions">
+      <button class="btn btn--passive" onclick="invertVisibilityOfDeletionDialog()">No (Cancel)</button>
+      <button class="btn btn--danger" id="delete_book_yes_op">Yes</button>
+    </div>
+  </div>
+
+  <header>
+    <h1>Favorite Books</h1>
+    <div class="search-bar">
+      <input type="text" placeholder="Search..." id="search-input">
+      <div class="sort-by">
+        <span class="sort-by-text">Sort By:</span>
+        <button class="sort-button" id="sort-by-name" onclick="sortByName()">Name</button>
+        <button class="sort-button" id="sort-by-rating" onclick="sortByRatign()">Rating</button>
+      </div>
+    </div>
+    <button onclick="invertVisibilityOfAddBookDialog()">ADD BOOK</button>
+  </header>
+
+  <main>
+    <section id="entry-text" class="card">
+      <p>List Currently Empty!!!</p>
+    </section>
+    <ul id="book-list">
+    </ul>
+    <nav id="pagination-navbar">
+      <div id="dropdown-container">
+        <span id="custom-text">Items per page</span>
+        <select id="number-dropdown" onchange="handleDropdownChange()"></select>
+      </div>
+      <button id="prev-page" onclick="getPrevPage()">&lt;</button>
+      <span id="page-number">1 - 5 of 500</span>
+      <button id="next-page" onclick="getNextPage()">&gt;</button>
+    </nav>
+    <audio id="addAudio"
+      src="https://firebasestorage.googleapis.com/v0/b/chattingtask7.appspot.com/o/audios%2Fadd.mp3?alt=media&token=dc522a79-1dc5-4019-afca-91a2215e056d"
+      style="display: none;"></audio>
+    <audio id="deleteAudio"
+      src="https://firebasestorage.googleapis.com/v0/b/chattingtask7.appspot.com/o/audios%2Fdelete.mp3?alt=media&token=950ef728-56d2-43dc-94b9-c1b577a4d05c"
+      style="display: none;"></audio>
+  </main>
+</body>
+
+</html>
