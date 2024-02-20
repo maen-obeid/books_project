@@ -13,9 +13,11 @@ const dropdownElement = document.getElementById('number-dropdown');
 const pagNumberElement = document.getElementById('page-number');
 const addAudio = document.getElementById('addAudio');
 const deleteAudio = document.getElementById('deleteAudio');
+const menu = document.getElementById('dropdown-menu');;
 const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 let itemsPerPage = 3;
 let currentPage = 1;
+let textColor = "";
 
 
 let nameAscSorted;
@@ -95,6 +97,10 @@ function fillDDLItems() {
         dropdownElement.appendChild(option);
     }
 
+    if (itemsPerPage > bookList.length && itemsPerPage != 1) {
+        itemsPerPage -= 1;
+    }
+
     dropdownElement.selectedIndex = itemsPerPage - 1;
 }
 
@@ -109,13 +115,16 @@ function generatePagination(currentPage) {
             addBookToUI(value, (index >= firstActiveIndex && index < lastActiveIndex))
         });
 
+        var bookElements = document.querySelectorAll('.book-element h2');
+        changeElementsColor(bookElements);
+
         emptyListMessageElement.style.display = "none";
         paginationBarElement.style.display = "flex";
     }
 }
 
 searchElement.addEventListener('keyup', function () {
-    const searchValue = (searchElement.value.toString()).trim();
+    const searchValue = (searchElement.value.toString()).trim().toLowerCase();
     bookListElement.innerHTML = '';
 
     if (tempBookList.length == 0) {
@@ -131,10 +140,17 @@ searchElement.addEventListener('keyup', function () {
         updatePaginationBar();
         generatePagination(currentPage);
     } else {
-        bookList = bookList.filter(book => book.title.startsWith(searchValue));
+        bookList = bookList.filter(book => book.title.toLowerCase().includes(searchValue));
         updateItemsPerPage();
         updatePaginationBar();
         generatePagination(currentPage);
+    }
+});
+
+bookRate.addEventListener('input', function (e) {
+    this.value = this.value.replace(/[^0-5]/g, '');
+    if (this.value.length >  1) {
+        this.value = this.value.slice(0,  1);
     }
 });
 
@@ -222,7 +238,7 @@ function deleteBook(bookId) {
 
     invertVisibilityOfDeletionDialog();
 
-    if ((currentPage - 1) == (bookList.length / itemsPerPage)) {
+    if (currentPage != 1 && (currentPage - 1) == (bookList.length / itemsPerPage)) {
         currentPage -= 1;
     }
 
@@ -272,6 +288,10 @@ function addBookToUI(newBook, isActive) {
     li.appendChild(bookInfoElement);
 
     bookListElement.appendChild(li);
+
+    var bookElements = document.querySelectorAll('.book-element h2');
+
+    bookElements[bookElements.length - 1].style.color = textColor;
 }
 
 function addBook() {
@@ -336,6 +356,77 @@ function invertVisibilityOfDeletionDialog() {
         deleteBookBoxElement.style.display = "block";
     }
 }
+
+function changeElementsColor(allElement) {
+    allElement.forEach(function (element) {
+        element.style.color = textColor;
+    });
+}
+
+function toggleDarkMode() {
+    var body = document.body;
+    var toggle = document.getElementById('dark-mode-toggle');
+    var bookElements = document.querySelectorAll('.book-element h2');
+    var textElements = document.querySelectorAll('.modal__content label');
+    if (toggle.checked) {
+        body.classList.add('dark-mode');
+        deleteBookBoxElement.classList.add('dark-mode');
+        addBookBoxElement.classList.add('dark-mode');
+        textColor = '#fff';// Light text color for dark mode
+        changeElementsColor(bookElements);
+        changeElementsColor(textElements);
+    } else {
+        body.classList.remove('dark-mode');
+        deleteBookBoxElement.classList.remove('dark-mode');
+        addBookBoxElement.classList.remove('dark-mode');
+        textColor = '#383838'; // Default text color for light mode
+        changeElementsColor(bookElements);
+        changeElementsColor(textElements);
+    }
+
+    if (menu.classList.contains('show')) {
+        menu.classList.remove('show');
+    }
+}
+
+function toggleMenu() {
+    menu.classList.toggle('show');
+}
+
+function closeMenuIfClickedOutside(event) {
+    var menuIcon = document.querySelector('.menu-icon');
+    var isClickInside = menu.contains(event.target) || menuIcon.contains(event.target);
+
+    if (!isClickInside && menu.classList.contains('show')) {
+        menu.classList.remove('show');
+    }
+}
+
+function changeFontSize(size) {
+    var body = document.body;
+    var newFontSize;
+
+    switch (size) {
+        case 'smaller':
+            newFontSize = 12;
+            break;
+        case 'normal':
+            newFontSize = 16; // Assuming the default font size is  16px
+            break;
+        case 'bigger':
+            newFontSize = 20;
+            break;
+        default:
+            return;
+    }
+
+    body.style.fontSize = newFontSize + 'px';
+
+    generatePagination(currentPage);
+}
+
+
+document.addEventListener('click', closeMenuIfClickedOutside);
 
 
 getBookListFromLocalStorage();

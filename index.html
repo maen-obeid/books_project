@@ -19,7 +19,7 @@
       <label for="image-url">Image URL</label>
       <input type="text" name="image-url" id="image-url" />
       <label for="rating">Your Rating</label>
-      <input type="number" step="1" max="5" min="1" name="rating" id="rating"/>
+      <input type="text" pattern="[0-5]+" name="rating" id="rating" />
     </div>
     <div class="modal__actions">
       <button class="btn btn--passive" onclick="invertVisibilityOfAddBookDialog()">Cancel</button>
@@ -39,7 +39,25 @@
   </div>
 
   <header>
-    <h1>Favorite Books</h1>
+    <div class="menu-app-name">
+      <div class="menu-icon" onclick="toggleMenu()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu">
+        <label>
+          <input type="checkbox" id="dark-mode-toggle" onclick="toggleDarkMode()">
+          Dark Mode
+        </label>
+        <div class="font-size-options">
+          <button class="small-font-size" onclick="changeFontSize('smaller')">Small</button>
+          <button class="normal-font-size" onclick="changeFontSize('normal')">Normal</button>
+          <button class="big-font-size" onclick="changeFontSize('bigger')">Big</button>
+        </div>
+      </div>
+      <h1>Favorite Books</h1>
+    </div>
     <div class="search-bar">
       <input type="text" placeholder="Search..." id="search-input">
       <div class="sort-by">
@@ -63,7 +81,7 @@
         <select id="number-dropdown" onchange="handleDropdownChange()"></select>
       </div>
       <button id="prev-page" onclick="getPrevPage()">&lt;</button>
-      <span id="page-number">1 - 5 of 500</span>
+      <span id="page-number"></span>
       <button id="next-page" onclick="getNextPage()">&gt;</button>
     </nav>
     <audio id="addAudio"
