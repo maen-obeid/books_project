@@ -334,14 +334,18 @@ function addBook() {
 function invertVisibilityOfAddBookDialog() {
 
     if (addBookBoxElement.style.display.toString() == "block") {
-        backDropElement.style.display = "none";
+        // backDropElement.style.display = "none";
+        // document.querySelector('.backdrop').style.display = 'none';
+        backDropElement.classList.remove('visible');
         addBookBoxElement.style.display = "none";
 
         bookTitle.value = "";
         bookImageUrl.value = "";
         bookRate.value = "";
     } else {
-        backDropElement.style.display = "block";
+        // backDropElement.style.display = "block";
+        // document.querySelector('.backdrop').style.display = 'block';
+        backDropElement.classList.add('visible');
         addBookBoxElement.style.display = "block";
     }
 }
@@ -349,10 +353,14 @@ function invertVisibilityOfAddBookDialog() {
 function invertVisibilityOfDeletionDialog() {
 
     if (deleteBookBoxElement.style.display.toString() == "block") {
-        backDropElement.style.display = "none";
+        // backDropElement.style.display = "none";
+        // document.querySelector('.backdrop').style.display = 'none';
+        backDropElement.classList.remove('visible');
         deleteBookBoxElement.style.display = "none";
     } else {
-        backDropElement.style.display = "block";
+        // backDropElement.style.display = "block";
+        // document.querySelector('.backdrop').style.display = 'block';
+        backDropElement.classList.add('visible');
         deleteBookBoxElement.style.display = "block";
     }
 }
