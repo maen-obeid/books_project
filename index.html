@@ -8,6 +8,7 @@
   <title>Favorite</title>
   <link rel="stylesheet" href="assets/styles/app.css" />
   <script src="assets/scripts/app.js" defer></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -66,7 +67,8 @@
         <button class="sort-button" id="sort-by-rating" onclick="sortByRatign()">Rating</button>
       </div>
     </div>
-    <button onclick="invertVisibilityOfAddBookDialog()">ADD BOOK</button>
+    <button onclick="exportToExcel()">Export to Excel</button>
+    <button onclick="invertVisibilityOfAddBookDialog()">Add Book</button>
   </header>
 
   <main>

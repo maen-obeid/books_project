@@ -13,7 +13,7 @@ const dropdownElement = document.getElementById('number-dropdown');
 const pagNumberElement = document.getElementById('page-number');
 const addAudio = document.getElementById('addAudio');
 const deleteAudio = document.getElementById('deleteAudio');
-const menu = document.getElementById('dropdown-menu');;
+const menu = document.getElementById('dropdown-menu');
 const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 let itemsPerPage = 3;
 let currentPage = 1;
@@ -41,6 +41,22 @@ function getBookListFromLocalStorage() {
         fillDDLItems();
 
         updatePaginationBar();
+    }
+}
+
+function exportToExcel() {
+
+    if (bookList.length != 0) {
+        const jsonData = JSON.stringify(bookList, null, 2);
+        const worksheet = XLSX.utils.json_to_sheet(bookList);
+
+        // Create a new workbook and add the worksheet to it
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+        // Write the workbook to a file
+        XLSX.writeFile(workbook, 'output.xlsx');
+
     }
 }
 
@@ -149,8 +165,8 @@ searchElement.addEventListener('keyup', function () {
 
 bookRate.addEventListener('input', function (e) {
     this.value = this.value.replace(/[^0-5]/g, '');
-    if (this.value.length >  1) {
-        this.value = this.value.slice(0,  1);
+    if (this.value.length > 1) {
+        this.value = this.value.slice(0, 1);
     }
 });
 
